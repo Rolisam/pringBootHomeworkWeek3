@@ -93,9 +93,11 @@ public class CarApi {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PATCH)
-    public ResponseEntity<Car> editCarField(@RequestBody Car car) {
-        boolean isEdited = carService.editCarField(car);
+    @RequestMapping(path = "/{id}/{filed}/{value}", method = RequestMethod.PATCH)
+    public ResponseEntity updateCarProperty(@PathVariable Long id, @PathVariable String filed, @PathVariable String value) {
+
+        boolean isEdited = carService.editCarField(id, filed, value);
+
         if (isEdited) {
             return ResponseEntity.ok().build();
         } else {

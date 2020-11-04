@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 @Service
 public class CarServiceImpl implements CarService{
     private List<Car> carList;
-    private CarRepository carRepository;
 
     @Autowired
     public CarServiceImpl(CarRepository carRepository) {
-        this.carRepository = carRepository;
         carList = carRepository.getCarList();
     }
 
@@ -58,31 +56,40 @@ public class CarServiceImpl implements CarService{
     }
 
     @Override
-    public boolean editCarField(Car car) {
+    public boolean editCarField(Long id, String field, String value) {
         boolean isEdited;
 
-        Optional<Car> carWithTheSameId = carList
-                .stream().filter(o -> o.getId() == car.getId())
+        Optional<Car> optionalCar = carList.stream()
+                .filter(o -> o.getId() == id)
                 .findFirst();
 
-        if (carWithTheSameId.isPresent()) {
-            if (car.getColor() == null) car.setColor(carWithTheSameId.get().getColor());
-            if (car.getMark().isEmpty()) car.setMark(carWithTheSameId.get().getMark());
-            if (car.getModel().isEmpty()) car.setModel(carWithTheSameId.get().getModel());
-            carList.remove(carWithTheSameId.get());
-            isEdited = carList.add(car);
-
+        if (optionalCar.isPresent()) {
+            Car car = optionalCar.get();
+            switch (field) {
+                case "mark":
+                    car.setMark(value);
+                    break;
+                case "model":
+                    car.setModel(value);
+                    break;
+                case "color":
+                    car.setColor(Color.valueOf(value));
+                    break;
+            }
         } else {
-            isEdited = false;
+            return false;
         }
-        return isEdited;
+
+        return true;
     }
 
+
+
     @Override
-    public List<Car> getCarsByColor(String color){
-        return  carList.stream()
-                    .filter(o -> color.toLowerCase().equals(o.getColor()))
-                    .collect(Collectors.toList());
+    public List<Car> getCarsByColor(String color) {
+        return carList.stream()
+                .filter(o -> o.getColor() == Color.valueOf(color))
+                .collect(Collectors.toList());
     }
 
     @Override
