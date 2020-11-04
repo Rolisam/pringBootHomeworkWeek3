@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 @Service
 public class CarServiceImpl implements CarService{
     private List<Car> carList;
-    private CarRepository carRepository;
 
     @Autowired
     public CarServiceImpl(CarRepository carRepository) {
-        this.carRepository = carRepository;
         carList = carRepository.getCarList();
     }
 
@@ -67,8 +65,8 @@ public class CarServiceImpl implements CarService{
 
         if (carWithTheSameId.isPresent()) {
             if (car.getColor() == null) car.setColor(carWithTheSameId.get().getColor());
-            if (car.getMark().isEmpty()) car.setMark(carWithTheSameId.get().getMark());
-            if (car.getModel().isEmpty()) car.setModel(carWithTheSameId.get().getModel());
+            if (car.getMark() == null) car.setMark(carWithTheSameId.get().getMark());
+            if (car.getModel() == null) car.setModel(carWithTheSameId.get().getModel());
             carList.remove(carWithTheSameId.get());
             isEdited = carList.add(car);
 
@@ -81,7 +79,7 @@ public class CarServiceImpl implements CarService{
     @Override
     public List<Car> getCarsByColor(String color){
         return  carList.stream()
-                    .filter(o -> color.toLowerCase().equals(o.getColor()))
+                    .filter(o -> o.getColor() == Color.valueOf(color))
                     .collect(Collectors.toList());
     }
 
