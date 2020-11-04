@@ -20,7 +20,7 @@ import java.util.List;
                 MediaType.APPLICATION_JSON_VALUE,
                 MediaType.APPLICATION_XML_VALUE})
 public class CarApi {
-    CarService carService;
+    private CarService carService;
 
     @Autowired
     public CarApi(CarService carService) {
