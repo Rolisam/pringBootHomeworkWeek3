@@ -17,12 +17,8 @@ public class CarRepository {
         fillCarList();
     }
 
-    public List<Car> getCarList() {
+    public List<Car> findAllCars() {
         return carList;
-    }
-
-    public void setCarList(List<Car> carList) {
-        this.carList = carList;
     }
 
     private void fillCarList(){

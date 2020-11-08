@@ -6,7 +6,6 @@ import com.example.springboot.homework.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,9 +14,10 @@ import java.util.stream.Collectors;
 public class CarServiceImpl implements CarService{
     private List<Car> carList;
 
+
     @Autowired
     public CarServiceImpl(CarRepository carRepository) {
-        carList = carRepository.getCarList();
+        carList = carRepository.findAllCars();
     }
 
     @Override

@@ -37,8 +37,9 @@ public class CarApi {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Car>> getCars() {
+        System.out.println("POBIERAM");
 
-        if (carService.getCarList().isPresent() || !carService.getCarList().get().isEmpty()) {
+        if (carService.getCarList().isPresent()) {
             return ResponseEntity.ok(carService.getCarList().get());
         } else {
             return ResponseEntity.notFound()
